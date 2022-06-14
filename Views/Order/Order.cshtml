@@ -1,0 +1,20 @@
+﻿@model MaxCoViewModels
+
+<div class="main-container container">
+    <div class="row">
+        @foreach(var order in Model.OrderProducts)
+        {
+            <div class="col-md-4 col-sm-4">
+                <div style="border: 2px solid black;">
+                        <form asp-action="Details" id="target-product" asp-controller="Home" role="form">
+                            <input asp-for="@order.OrderId" type="hidden" class="form-control"/>
+                            <p class="product-name">
+                                @order.ProductName
+                            </p>
+                        </form> 
+                    <p class="product-price">Price: @order.ProductPrice</p>
+                </div>
+            </div>
+        }
+    </div>
+</div>

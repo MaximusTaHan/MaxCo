@@ -1,0 +1,16 @@
+﻿@model MaxCoViewModels
+
+<div class="main-container container">
+    <div class="row">
+            <div class="col-md-4 col-sm-4">
+                <div style="border: 2px solid black;">
+                    <img href="@Model.Product.ProductImage" alt="Product image" />
+                    <p class="product-name">
+                        @Model.Product.ProductName
+                    </p>
+                    <p class="product-price">Price: @Model.Product.ProductPrice</p>
+                    <p class="product-description">Details: @Model.Product.ProductDescription</p>
+                </div>
+            </div>
+    </div>
+</div>
