@@ -10,6 +10,12 @@
                     </p>
                     <p class="product-price">Price: @Model.Product.ProductPrice</p>
                     <p class="product-description">Details: @Model.Product.ProductDescription</p>
+                    <form asp-action="AddProduct" id="target-product" asp-controller="Order" role="form">
+                        <input asp-for="@Model.Product.ProductId" type="hidden" class="form-control"/>
+                        <button type="submit" class="btn btn-primary">
+                            Add To Cart
+                        </button>
+                    </form>
                 </div>
             </div>
     </div>

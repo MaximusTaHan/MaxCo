@@ -1,20 +1,37 @@
 ﻿@model MaxCoViewModels
 
-<div class="main-container container">
-    <div class="row">
-        @foreach(var order in Model.OrderProducts)
-        {
-            <div class="col-md-4 col-sm-4">
-                <div style="border: 2px solid black;">
-                        <form asp-action="Details" id="target-product" asp-controller="Home" role="form">
-                            <input asp-for="@order.OrderId" type="hidden" class="form-control"/>
-                            <p class="product-name">
-                                @order.ProductName
-                            </p>
-                        </form> 
-                    <p class="product-price">Price: @order.ProductPrice</p>
+@if (Model.OrderProducts.Count != 0)
+{
+    <div class="main-container container">
+        <div class="row">
+            @foreach(var order in Model.OrderProducts)
+            {
+                <div class="col-md-4 col-sm-4">
+                    <div style="border: 2px solid black;">
+                            <form asp-action="Details" id="target-product" asp-controller="Home" role="form">
+                                <input asp-for="@order.OrderId" type="hidden" class="form-control"/>
+                                <p class="product-name">
+                                    @order.ProductName
+                                </p>
+                            </form> 
+                        <p class="product-price">Price: @order.ProductPrice</p>
+                        <p class="quantity">Amount: @order.Quantity</p>
+                    </div>
                 </div>
-            </div>
-        }
+            }
+        </div>
     </div>
-</div>
+
+    <form asp-action="Delete" asp-controller="Order" role="form">
+        <input asp-for="@Model.OrderProducts[0].OrderId" type="hidden" class="form-control"/>
+        <button type="submit" class="btn btn-danger">
+            Empty cart
+        </button>
+    </form>
+}
+else
+{
+    <div>
+        <h1>Your cart is empty</h1>
+    </div>
+}
