@@ -9,7 +9,7 @@ namespace MaxCo.Repositories
     public class OrderRepository : IOrderRepository
     {
         private static string? _connectionString;
-        private IHttpContextAccessor _httpContextAccessor;
+        private readonly IHttpContextAccessor _httpContextAccessor;
         private static int activeOrderId;
         public OrderRepository(IConfiguration configuration, IHttpContextAccessor httpContextAccessor)
         {
@@ -24,6 +24,7 @@ namespace MaxCo.Repositories
 
         public async Task AddOrderProduct(MaxCoViewModels orderProduct)
         {
+            FindActiveOrder();
             string? sql = $@"IF EXISTS (SELECT * FROM orderProduct WHERE ProductKey = {orderProduct.Product.ProductId} AND orderProduct.OrderId = {activeOrderId})
                             BEGIN
 	                            UPDATE orderProduct
@@ -43,6 +44,7 @@ namespace MaxCo.Repositories
 
         public Task DeleteOrder(int orderId)
         {
+            FindActiveOrder();
             var sql = $@"DELETE FROM orders
                         WHERE OrderId = {orderId}";
             using(var connection = new SqlConnection(_connectionString))
@@ -56,6 +58,7 @@ namespace MaxCo.Repositories
 
         public async Task<MaxCoViewModels> GetOrder()
         {
+            FindActiveOrder();
             var sql = @$"SELECT orderProduct.OrderId, ProductName, ProductPrice, Quantity
 	                        FROM orderProduct
 	                        INNER JOIN products ON orderProduct.ProductKey = products.ProductId

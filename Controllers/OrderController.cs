@@ -17,6 +17,7 @@ namespace MaxCo.Controllers
         public async Task<IActionResult> Order()
         {
             var order = await _orderRepository.GetOrder();
+
             return View(order);
         }
 
@@ -29,9 +30,9 @@ namespace MaxCo.Controllers
 
         public async Task<IActionResult> UpdateOrder(MaxCoViewModels adjustOrderProduct)
         {
-            var adjustedOrder = await _orderRepository.UpdateOrder(adjustOrderProduct);
+           var adjustedOrder = await _orderRepository.UpdateOrder(adjustOrderProduct);
 
-            return View(adjustedOrder);
+            return View();
         }
 
         public async Task<IActionResult> Delete(MaxCoViewModels product)

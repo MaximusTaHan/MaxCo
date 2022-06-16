@@ -7,7 +7,8 @@ namespace MaxCo.Controllers
     public class HomeController : Controller
     {
         private readonly IProductRepository _productRepository;
-        public HomeController(IProductRepository productRepository)
+
+        public HomeController(IProductRepository productRepository, IOrderRepository orderRepository)
         {
             _productRepository = productRepository;
         }

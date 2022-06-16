@@ -8,20 +8,23 @@
             {
                 <div class="col-md-4 col-sm-4">
                     <div style="border: 2px solid black;">
-                            <form asp-action="Details" id="target-product" asp-controller="Home" role="form">
-                                <input asp-for="@order.OrderId" type="hidden" class="form-control"/>
-                                <p class="product-name">
-                                    @order.ProductName
-                                </p>
-                            </form> 
-                        <p class="product-price">Price: @order.ProductPrice</p>
-                        <p class="quantity">Amount: @order.Quantity</p>
+                        <p class="product-name">
+                            @order.ProductName
+                        </p>
+                        <form id="update-order-product" role="form" class="test"  asp-controller="Order" asp-action="UpdateOrder">
+                            <input asp-for="@order.OrderId" type="hidden" class="form-control"/>
+                            <input asp-for="@order.ProductName" class="form-control"/>
+                            <input type="number" min="1" asp-for="@order.Quantity" class="order-product-quantity form-control"/>
+                            <button type="submit" class="btn btn-danger">
+                                Update Order
+                            </button>
+                        </form>
                     </div>
                 </div>
             }
         </div>
     </div>
-
+    <p type="text" class="insert-total">This needs to change</p>
     <form asp-action="Delete" asp-controller="Order" role="form">
         <input asp-for="@Model.OrderProducts[0].OrderId" type="hidden" class="form-control"/>
         <button type="submit" class="btn btn-danger">
