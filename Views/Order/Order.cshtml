@@ -8,13 +8,14 @@
             {
                 <div class="col-md-4 col-sm-4">
                     <div style="border: 2px solid black;">
-                        <p class="product-name">
-                            @order.ProductName
-                        </p>
-                        <form id="update-order-product" role="form" class="test"  asp-controller="Order" asp-action="UpdateOrder">
-                            <input asp-for="@order.OrderId" type="hidden" class="form-control"/>
-                            <input asp-for="@order.ProductName" class="form-control"/>
-                            <input type="number" min="1" asp-for="@order.Quantity" class="order-product-quantity form-control"/>
+                        <form id="update-order-product"  asp-controller="Order" asp-action="UpdateOrder" >
+                            <input asp-for="@order.OrderId" type="hidden" class="form-control "/>
+                            <input asp-for="@order.ProductName" type="hidden" class="form-control"/>
+                            <input asp-for="@order.ProductPrice" type="hidden" class="form-control"/>
+
+                            <label>@order.ProductName</label>
+                            <label class="product-price">@order.ProductPrice</label>
+                            <input type="number" min="1" asp-for="@order.Quantity" class="order-product-quantity form-control test"/>
                             <button type="submit" class="btn btn-danger">
                                 Update Order
                             </button>

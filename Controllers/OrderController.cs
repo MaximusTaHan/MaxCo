@@ -2,6 +2,7 @@
 using MaxCo.Models.ViewModels;
 using MaxCo.Repositories;
 using Microsoft.AspNetCore.Authorization;
+using MaxCo.Models;
 
 namespace MaxCo.Controllers
 {
@@ -28,9 +29,9 @@ namespace MaxCo.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        public async Task<IActionResult> UpdateOrder(MaxCoViewModels adjustOrderProduct)
+        public async Task<IActionResult> UpdateOrder([Bind(Prefix = "order")]OrderProductModel adjustOrderProduct)
         {
-           var adjustedOrder = await _orderRepository.UpdateOrder(adjustOrderProduct);
+           //var adjustedOrder = await _orderRepository.UpdateOrder(adjustOrderProduct);
 
             return View();
         }
