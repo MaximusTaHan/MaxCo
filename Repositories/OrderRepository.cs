@@ -3,6 +3,7 @@ using System.Security.Claims;
 using Dapper;
 using MaxCo.Models;
 using MaxCo.Models.ViewModels;
+using MaxCoEmailService;
 
 namespace MaxCo.Repositories
 {
@@ -10,11 +11,13 @@ namespace MaxCo.Repositories
     {
         private static string? _connectionString;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IProcessOrder _processOrder;
         private static int activeOrderId;
-        public OrderRepository(IConfiguration configuration, IHttpContextAccessor httpContextAccessor)
+        public OrderRepository(IConfiguration configuration, IHttpContextAccessor httpContextAccessor, IProcessOrder processOrder)
         {
             _connectionString = configuration.GetConnectionString("DefaultConnection");
             _httpContextAccessor = httpContextAccessor;
+            _processOrder = processOrder;
 
             if (activeOrderId == 0)
                 FindActiveOrder();
@@ -59,7 +62,7 @@ namespace MaxCo.Repositories
         public async Task<MaxCoViewModels> GetOrder()
         {
             FindActiveOrder();
-            var sql = @$"SELECT orderProduct.OrderId, ProductName, ProductPrice, Quantity
+            var sql = @$"SELECT orderProduct.OrderId, ProductName, ProductPrice, ProductId, Quantity
 	                        FROM orderProduct
 	                        INNER JOIN products ON orderProduct.ProductKey = products.ProductId
 	                        WHERE orderProduct.OrderId = {activeOrderId}";
@@ -75,14 +78,47 @@ namespace MaxCo.Repositories
             return products;
         }
 
-        public Task<MaxCoViewModels> UpdateOrder(MaxCoViewModels orderProduct)
+        public Task UpdateOrder(OrderProductModel orderProduct)
         {
-            throw new NotImplementedException();
+            FindActiveOrder();
+            string sql = @$"UPDATE orderProduct
+                            SET Quantity = {orderProduct.Quantity}
+                            WHERE ProductKey = {orderProduct.ProductId}
+                            AND OrderId = {activeOrderId}";
+
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+                connection.Execute(sql);
+            }
+            return Task.CompletedTask;
+        }
+
+        public Task DeleteItem(int? itemId)
+        {
+            FindActiveOrder();
+            string sql = $@"DELETE FROM orderProduct
+                            WHERE ProductKey = {itemId}";
+
+            using(var connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+                connection.Execute(sql);
+            }
+            return Task.CompletedTask;
         }
 
         private void FindActiveOrder()
         {
             var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userEmail = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.Email);
+
+            var dummyObject = new OrderProductModel
+            {
+
+            };
+
+            _processOrder.ConfirmationSender(dummyObject);
             var sql = @$"SELECT OrderId
                         FROM orders
                         WHERE OrderStatus = 2

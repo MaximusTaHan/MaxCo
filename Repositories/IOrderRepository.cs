@@ -1,4 +1,5 @@
-﻿using MaxCo.Models.ViewModels;
+﻿using MaxCo.Models;
+using MaxCo.Models.ViewModels;
 
 namespace MaxCo.Repositories
 {
@@ -6,7 +7,8 @@ namespace MaxCo.Repositories
     {
         Task<MaxCoViewModels> GetOrder();
         Task AddOrderProduct(MaxCoViewModels orderProduct);
-        Task<MaxCoViewModels> UpdateOrder(MaxCoViewModels orderProduct);
+        Task UpdateOrder(OrderProductModel orderProduct);
         Task DeleteOrder(int orderId);
+        Task DeleteItem(int? itemId);
     }
 }

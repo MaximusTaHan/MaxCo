@@ -1,23 +1,31 @@
 ﻿@model MaxCoViewModels
-
+@{
+    decimal? total = 0;
+}
 @if (Model.OrderProducts.Count != 0)
 {
     <div class="main-container container">
         <div class="row">
             @foreach(var order in Model.OrderProducts)
             {
+                total += order.Total;
+
                 <div class="col-md-4 col-sm-4">
                     <div style="border: 2px solid black;">
-                        <form id="update-order-product"  asp-controller="Order" asp-action="UpdateOrder" >
+                        <form id="update-order-product">
                             <input asp-for="@order.OrderId" type="hidden" class="form-control "/>
                             <input asp-for="@order.ProductName" type="hidden" class="form-control"/>
                             <input asp-for="@order.ProductPrice" type="hidden" class="form-control"/>
+                            <input asp-for="@order.ProductId" type="hidden" class="form-control" />
 
                             <label>@order.ProductName</label>
                             <label class="product-price">@order.ProductPrice</label>
                             <input type="number" min="1" asp-for="@order.Quantity" class="order-product-quantity form-control test"/>
-                            <button type="submit" class="btn btn-danger">
+                            <button type="submit" class="btn btn-danger" asp-controller="Order" asp-action="UpdateOrder">
                                 Update Order
+                            </button>
+                            <button type="submit" class="btn btn-danger" asp-controller="Order" asp-action="DeleteItem">
+                                Delete Item
                             </button>
                         </form>
                     </div>
@@ -25,12 +33,15 @@
             }
         </div>
     </div>
-    <p type="text" class="insert-total">This needs to change</p>
+    <p type="text" class="insert-total">Total: @total</p>
     <form asp-action="Delete" asp-controller="Order" role="form">
         <input asp-for="@Model.OrderProducts[0].OrderId" type="hidden" class="form-control"/>
         <button type="submit" class="btn btn-danger">
             Empty cart
         </button>
+    </form>
+    <form asp-action="Finalize" asp-controller="Order" role="form">
+
     </form>
 }
 else

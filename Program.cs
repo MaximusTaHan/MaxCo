@@ -2,6 +2,7 @@ using MaxCo.Data;
 using MaxCo.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using MaxCoEmailService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +17,8 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
 
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddTransient<IOrderRepository, OrderRepository>();
+builder.Services.AddTransient<IProcessOrder, ProcessOrder>();
+
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
