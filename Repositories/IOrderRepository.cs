@@ -10,5 +10,6 @@ namespace MaxCo.Repositories
         Task UpdateOrder(OrderProductModel orderProduct);
         Task DeleteOrder(int orderId);
         Task DeleteItem(int? itemId);
+        Task ConfirmOrder();
     }
 }

@@ -108,17 +108,41 @@ namespace MaxCo.Repositories
             return Task.CompletedTask;
         }
 
+        public async Task ConfirmOrder()
+        {
+            var userEmail = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.Email);
+            var finalOrder = await GetOrder();
+            decimal? total = 0;
+
+            foreach (var order in finalOrder.OrderProducts)
+            {
+                total += order.Quantity * order.ProductPrice;
+            }
+
+            FinalizedOrder final = new FinalizedOrder();
+            final.TotalPrice = total;
+            final.CustomerEmail = userEmail;
+            final.OrderProducts = finalOrder.OrderProducts;
+
+            await _processOrder.ConfirmationSender(final);
+
+            var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var sql = $@"UPDATE orders
+                        SET OrderStatus = 1
+                        WHERE OrderStatus = 2
+                        AND UserId = '{userId}'";
+
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+                connection.Execute(sql);
+            }
+        }
+
         private void FindActiveOrder()
         {
             var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var userEmail = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.Email);
 
-            var dummyObject = new OrderProductModel
-            {
-
-            };
-
-            _processOrder.ConfirmationSender(dummyObject);
             var sql = @$"SELECT OrderId
                         FROM orders
                         WHERE OrderStatus = 2

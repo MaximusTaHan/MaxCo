@@ -60,5 +60,12 @@ namespace MaxCo.Controllers
             await _orderRepository.DeleteItem(adjustOrderProduct.ProductId);
             return RedirectToAction("Order");
         }
+
+        public async Task<IActionResult> Finalize()
+        {
+            await _orderRepository.ConfirmOrder();
+
+            return View();
+        }
     }
 }

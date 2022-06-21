@@ -4,29 +4,29 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
-
 <div class="main-container container">
     <div class="row">
         @foreach(var product in Model.Products)
         {
             <div class="col-md-4 col-sm-4">
-                <div style="border: 2px solid black;">
-                        <form asp-action="Details" id="target-product" asp-controller="Home" role="form">
-                            <input asp-for="@product.ProductId" type="hidden" class="form-control"/>
-                            <button type="submit" class="form-button">
-                                <img href="@product.ProductImage" alt="Product image" />
-                            </button>
-                            <p class="product-name">
-                                <button type="submit" class="btn btn-primary form-button">
+                <div class="productWindow">
+                    <form asp-action="Details" id="target-product" asp-controller="Home" role="form">
+                        <input asp-for="@product.ProductId" type="hidden" class="form-control"/>
+                        <button type="submit" class="b1 btn form-button">
+                            <img src="~/images/@product.ProductImage" class="img" alt="Product image" />
+                        </button>
+                        <div class="productFields">
+                            <p>
+                                <button type="submit" class="b1 btn form-button productName">
                                     @product.ProductName
                                 </button>
                             </p>
-                        </form> 
-                    <p class="product-price">Price: @product.ProductPrice</p>
+                            <p class="productBrand">
+                                Brand: @product.ProductBrand
+                            </p>
+                            <p class="product-price">@product.ProductPrice kr</p>
+                        </div>
+                    </form>
                 </div>
             </div>
         }
