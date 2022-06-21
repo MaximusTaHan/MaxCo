@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MaxCo", "MaxCo.csproj", "{B
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MaxCoEmailService", "..\MaxCoEmailService\MaxCoEmailService.csproj", "{A9FD4313-C108-4A45-92F5-6D7A66EAAE75}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Library", "..\Library\Library.csproj", "{9D6356D4-FF81-461A-B474-0C9541F2429D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Library", "..\Library\Library.csproj", "{9D6356D4-FF81-461A-B474-0C9541F2429D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
