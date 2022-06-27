@@ -2,11 +2,25 @@
 
 .productWindow {
     box-shadow: 0px 5px 8px #888888;
+    margin-bottom: 1rem;
 }
 
-.productWindow .img {
+.feature-product {
+    max-height: 30vw;
+}
+.productWindow .index-products {
     max-width: 100%;
-    max-height: auto;
+    max-height: 15vw;
+    min-height: 15vw;
+}
+
+.form-button {
+    width: 100%;
+}
+
+.productWindow .detail-product {
+    max-width: 100%;
+    max-height: 30vw;
 }
 
 button.btn {
@@ -27,6 +41,11 @@ button.btn {
     display: flex;
     margin-bottom: auto;
     flex-direction: column;
+}
+
+.detail-fields {
+    min-height: 30vw;
+    margin-bottom: 1rem;
 }
 
 .productFields p {

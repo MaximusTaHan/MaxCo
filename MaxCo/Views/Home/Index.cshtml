@@ -5,6 +5,9 @@
 }
 
 <div class="main-container container">
+    @{
+        @Html.Partial("_FeatureProduct")
+    }
     <div class="row">
         @foreach(var product in Model.Products)
         {
@@ -13,7 +16,7 @@
                     <form asp-action="Details" id="target-product" asp-controller="Home" role="form">
                         <input asp-for="@product.ProductId" type="hidden" class="form-control"/>
                         <button type="submit" class=" btn form-button">
-                            <img src="~/images/@product.ProductImage" class="img" alt="Product image" />
+                            <img src="~/images/@product.ProductImage" class="index-products" alt="Product image" />
                         </button>
                         <div class="productFields">
                             <p>

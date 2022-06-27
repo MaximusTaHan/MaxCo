@@ -2,32 +2,30 @@
 
 <div class="main-container container">
     <div class="row">
-        <div class="col-md-8 col-sm-8">
-            <div class="productWindow">
-                <img src="~/images/@Model.Product.ProductImage" class="img" alt="Product image" />
+        <div class="col-md-8 col-sm-8 productWindow d-flex flex-wrap align-items-center justify-content-center">
+            <div class=" text-center">
+                <img src="~/images/@Model.Product.ProductImage" class="detail-product" alt="Product image" />
             </div>
         </div>
-        <div class="col-md-4 col-sm-4">
-            <div class="productFields">
-                <p class="productName">
-                    @Model.Product.ProductName
-                </p>
-                <p class="productPrice">
-                    @Model.Product.ProductPrice kr
-                </p>
-                <p class="productBrand">
-                    Brand: @Model.Product.ProductBrand
-                </p>
-                <p class="product-description">
-                    Details: @Model.Product.ProductDescription
-                </p>
-                <form asp-action="AddProduct" id="target-product" asp-controller="Order" role="form">
-                    <input asp-for="@Model.Product.ProductId" type="hidden" class="form-control"/>
-                    <button type="submit" class="cartButton btn btn-primary">
-                        Add To Cart
-                    </button>
-                </form>
-            </div>
+        <div class="col-md-4 col-sm-4 productFields detail-fields">
+            <p class="productName">
+                @Model.Product.ProductName
+            </p>
+            <p class="productPrice">
+                @Model.Product.ProductPrice kr
+            </p>
+            <p class="productBrand">
+                Brand: @Model.Product.ProductBrand
+            </p>
+            <p class="product-description">
+                Details: @Model.Product.ProductDescription
+            </p>
+            <form asp-action="AddProduct" id="target-product" asp-controller="Order" role="form">
+                <input asp-for="@Model.Product.ProductId" type="hidden" class="form-control"/>
+                <button type="submit" class="cartButton btn btn-primary">
+                    Add To Cart
+                </button>
+            </form>
         </div>
     </div>
     <div class="row">
