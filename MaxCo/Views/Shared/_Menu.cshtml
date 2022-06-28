@@ -1,0 +1,48 @@
+﻿
+<div class="modal-content">
+    <div class="modal-container">
+        <div class="modal-header h1">
+            Browse by Category
+        </div>
+
+        <div class="modal-body">
+            <ul class="navbar-nav flex-grow-1">
+                <li>
+                    <h3>Brands</h3>
+                    <ul>
+                        <li>
+                            <form asp-controller="Home" asp-action="Category">
+                                <input type="submit" name="categorySearch" value="Nintendo" class="categoryItem" />
+                            </form>
+                        </li>
+                        <li>
+                            <form asp-controller="Home" asp-action="Category">
+                                <input type="submit" name="categorySearch" value="Sony" class="categoryItem" />
+                            </form>
+                        </li>
+                        <li>
+                            <form asp-controller="Home" asp-action="Category">
+                                <input type="submit" name="categorySearch" value="Microsoft" class="categoryItem" />
+                            </form>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <h3>Gaming</h3>
+                    <ul>
+                        <li>
+                            <form asp-controller="Home" asp-action="Category">
+                                <input type="submit" name="categorySearch" value="Games" class="categoryItem" />
+                            </form>
+                        </li>
+                        <li>
+                            <form asp-controller="Home" asp-action="Category">
+                                <input type="submit" name="categorySearch" value="Controller" class="categoryItem" />
+                            </form>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

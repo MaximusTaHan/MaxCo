@@ -18,7 +18,7 @@ namespace MaxCoEmailService
             string body = string.Empty;
             StringBuilder rows = new(100);
 
-            using (StreamReader reader = new(@"C:\Users\Max\Source\Repos\CodeWars\MaxCoEmailService\HtmlTemplate.html"))
+            using (StreamReader reader = new(@"C:\Users\Max\Source\Repos\MaxCoFolder\MaxCoEmailService\HtmlTemplate.html"))
             {
                 body = reader.ReadToEnd();
             }

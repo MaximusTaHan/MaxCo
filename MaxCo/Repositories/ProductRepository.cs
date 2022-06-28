@@ -28,6 +28,25 @@ namespace MaxCo.Repositories
             return products;
         }
 
+        public async Task<MaxCoViewModels> GetCategory(string categorySearch)
+        {
+            string sql = $@"SELECT products.ProductId, products.ProductName, products.ProductPrice, products.ProductDescription, products.ProductImage, products.ProductBrand
+                            FROM products
+                            INNER JOIN productCategories
+                            ON products.ProductId = productCategories.ProductKey
+                            WHERE productCategories.CategoryKey = '{categorySearch}';";
+
+            var products = new MaxCoViewModels();
+
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+                products.Products = (List<ProductModel>)await connection.QueryAsync<ProductModel>(sql);
+            }
+
+            return products;
+        }
+
         public async Task<MaxCoViewModels> GetDetailed(int productId)
         {
             string sql = $"select * from products WHERE productId = @ProductId";
@@ -39,6 +58,23 @@ namespace MaxCo.Repositories
             {
                 connection.Open();
                 products.Product = await connection.QueryFirstAsync<ProductModel>(sql, param);
+            }
+
+            return products;
+        }
+
+        public async Task<MaxCoViewModels> GetFiltered(string id)
+        {
+            string sql = @$"select * from products WHERE ProductName LIKE '%{id}%'
+                            OR ProductDescription LIKE'%{id}%'
+                            OR ProductBrand LIKE '%{id}%';";
+
+            var products = new MaxCoViewModels();
+
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+                products.Products = (List<ProductModel>)await connection.QueryAsync<ProductModel>(sql);
             }
 
             return products;

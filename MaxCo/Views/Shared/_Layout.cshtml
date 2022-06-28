@@ -8,12 +8,13 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/productwindow.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/categoryNav.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/maxco.styles.css" asp-append-version="true" />
     
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">MaxCo</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -31,12 +32,29 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Order" asp-action="Order">Orders</a>
                         </li>
+                        <li>
+                            <button type="button" class="btn" id="menuButton">
+                                Menu
+                            </button>
+                        </li>
+                        <li>
+                            <form asp-controller="Home" asp-action="Index">
+                                <input type="text" name="searchString" />
+                                <input type="submit" value="Filter" />
+                            </form>
+                        </li>
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>
             </div>
         </nav>
     </header>
+    <div id="menu" class="modal left fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <partial name="_Menu.cshtml" />
+        </div>
+    </div>
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
