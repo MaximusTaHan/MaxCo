@@ -39,6 +39,7 @@ namespace MaxCo.Controllers
 
             return View(products);
         }
+        
         public async Task<IActionResult> Details(int id)
         {
             //var viewId = id.Product.ProductId;

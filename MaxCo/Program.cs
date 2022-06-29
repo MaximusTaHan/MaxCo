@@ -43,9 +43,14 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
+
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Home}/{action=Index}");
+app.MapControllerRoute(
+    name: "details",
+    pattern: "{controller=Home}/{action=Details}/{id?}");
+
 app.MapRazorPages();
 
 app.Run();

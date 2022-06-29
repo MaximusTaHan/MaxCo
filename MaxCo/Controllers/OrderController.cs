@@ -11,12 +11,10 @@ namespace MaxCo.Controllers
     public class OrderController : Controller
     {
         private readonly IOrderRepository _orderRepository;
-        //private readonly Worker _worker;
 
         public OrderController(IOrderRepository orderRepository)
         {
             _orderRepository = orderRepository;
-            //_worker = worker;
         }
 
         public async Task<IActionResult> Order()
@@ -34,11 +32,11 @@ namespace MaxCo.Controllers
             return View(order);
         }
 
-        public async Task<IActionResult> AddProduct(MaxCoViewModels addProduct)
+        public async Task<IActionResult> AddProduct(MaxCoViewModels addProduct, string returnUrl)
         {
             await _orderRepository.AddOrderProduct(addProduct);
-
-            return RedirectToAction("Index", "Home");
+            string previsouUrl = Request.Headers["Referer"].ToString();
+            return Redirect(returnUrl);
         }
 
         public async Task<IActionResult> UpdateOrder([Bind(Prefix = "order")]OrderProductModel adjustOrderProduct)

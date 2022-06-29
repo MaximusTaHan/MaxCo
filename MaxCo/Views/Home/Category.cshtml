@@ -7,7 +7,7 @@
         <div class="col-md-4 col-sm-4">
             <div class="productWindow">
                 <form asp-action="Details" id="target-product" asp-controller="Home" role="form">
-                    <input asp-for="@product.ProductId" type="hidden" class="form-control"/>
+                    <input asp-for="@product.ProductId" type="hidden" name="id" class="form-control"/>
                     <button type="submit" class=" btn form-button">
                         <img src="~/images/@product.ProductImage" class="index-products" alt="Product image" />
                     </button>

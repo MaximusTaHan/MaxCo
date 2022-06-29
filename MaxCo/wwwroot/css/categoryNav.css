@@ -1,4 +1,6 @@
-﻿
+﻿.navbar {
+    margin-bottom: 1rem;
+}
 
 .categoryItem {
     border-width: 0px;
@@ -6,8 +8,15 @@
 
 .categoryButtons {
     font-size: 3rem;
+    margin-bottom: 2rem;
 }
-
+.categoryButtons input {
+    font-weight: 600;
+    background-color: white;
+    border-width: 1px;
+    border-style: solid;
+    border-color: lightgray;
+}
 .modal.left {
     position: fixed;
     z-index: 99999;

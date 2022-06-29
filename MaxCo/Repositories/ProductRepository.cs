@@ -47,6 +47,7 @@ namespace MaxCo.Repositories
             return products;
         }
 
+
         public async Task<MaxCoViewModels> GetDetailed(int productId)
         {
             string sql = $"select * from products WHERE productId = @ProductId";
