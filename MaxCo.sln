@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32328.378
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MaxCo", "..\MaxCoFolder\MaxCo\MaxCo.csproj", "{BDC69826-4B53-4936-87E4-F4D94F948611}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MaxCo", "MaxCo\MaxCo.csproj", "{BDC69826-4B53-4936-87E4-F4D94F948611}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MaxCoEmailService", "..\MaxCoFolder\MaxCoEmailService\MaxCoEmailService.csproj", "{A9FD4313-C108-4A45-92F5-6D7A66EAAE75}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MaxCoEmailService", "MaxCoEmailService\MaxCoEmailService.csproj", "{A9FD4313-C108-4A45-92F5-6D7A66EAAE75}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Library", "..\MaxCoFolder\Library\Library.csproj", "{9D6356D4-FF81-461A-B474-0C9541F2429D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Library", "Library\Library.csproj", "{9D6356D4-FF81-461A-B474-0C9541F2429D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

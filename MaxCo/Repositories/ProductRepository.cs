@@ -63,6 +63,20 @@ namespace MaxCo.Repositories
             return products;
         }
 
+        public async Task<MaxCoViewModels> GetFeatureProducts()
+        {
+            string sql = @$"select * FROM featureProducts";
+
+            var products = new MaxCoViewModels();
+
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+                products.FeaturedProducts = (List<FeatureProductModel>) await connection.QueryAsync<FeatureProductModel>(sql);
+            }
+            return products;
+        }
+
         public async Task<MaxCoViewModels> GetFiltered(string id)
         {
             string sql = @$"select * from products WHERE ProductName LIKE '%{id}%'

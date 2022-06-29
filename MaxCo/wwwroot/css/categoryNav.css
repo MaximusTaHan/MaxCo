@@ -4,6 +4,10 @@
     border-width: 0px;
 }
 
+.categoryButtons {
+    font-size: 3rem;
+}
+
 .modal.left {
     position: fixed;
     z-index: 99999;

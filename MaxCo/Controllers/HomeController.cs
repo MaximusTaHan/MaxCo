@@ -13,10 +13,16 @@ namespace MaxCo.Controllers
             _productRepository = productRepository;
         }
 
-        public async Task<IActionResult> Index(string searchString)
+        public async Task<IActionResult> Index()
+        {
+            var featureProducts = await _productRepository.GetFeatureProducts();
+            return View(featureProducts);
+        }
+
+        public async Task<IActionResult> Browse(string searchString)
         {
             var products = new MaxCoViewModels();
-            if(string.IsNullOrEmpty(searchString))
+            if (string.IsNullOrEmpty(searchString))
             {
                 products = await _productRepository.GetAll();
             }
@@ -27,17 +33,16 @@ namespace MaxCo.Controllers
 
             return View(products);
         }
-
         public async Task<IActionResult> Category(string categorySearch)
         {
             var products = await _productRepository.GetCategory(categorySearch);
 
             return View(products);
         }
-        public async Task<IActionResult> Details(MaxCoViewModels id)
+        public async Task<IActionResult> Details(int id)
         {
-            var viewId = id.Product.ProductId;
-            var product = await _productRepository.GetDetailed(viewId);
+            //var viewId = id.Product.ProductId;
+            var product = await _productRepository.GetDetailed(id);
 
             return View(product);
         }

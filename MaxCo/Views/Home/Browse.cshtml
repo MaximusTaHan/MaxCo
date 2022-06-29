@@ -1,0 +1,30 @@
+﻿@model MaxCoViewModels
+
+<div class="main-container container">
+    <div class="row">
+        @foreach(var product in Model.Products)
+        {
+            <div class="col-md-4 col-sm-4">
+                <div class="productWindow">
+                    <form asp-action="Details" asp-controller="Home" role="form">
+                        <input asp-for="@product.ProductId" type="hidden" class="form-control"/>
+                        <button type="submit" class="btn form-button">
+                            <img src="~/images/@product.ProductImage" class="index-products" alt="Product image" />
+                        </button>
+                        <div class="productFields">
+                            <p>
+                                <button type="submit" class="b1 btn form-button productName">
+                                    @product.ProductName
+                                </button>
+                            </p>
+                            <p class="productBrand">
+                                Brand: @product.ProductBrand
+                            </p>
+                            <p class="product-price">@product.ProductPrice kr</p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        }
+    </div>
+</div>

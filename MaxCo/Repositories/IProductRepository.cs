@@ -8,5 +8,6 @@ namespace MaxCo.Repositories
         Task<MaxCoViewModels> GetDetailed(int productId);
         Task<MaxCoViewModels> GetFiltered(string id);
         Task<MaxCoViewModels> GetCategory(string categorySearch);
+        Task<MaxCoViewModels> GetFeatureProducts();
     }
 }
