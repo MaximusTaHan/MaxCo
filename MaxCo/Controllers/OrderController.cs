@@ -36,7 +36,7 @@ namespace MaxCo.Controllers
         {
             await _orderRepository.AddOrderProduct(addProduct);
             string previsouUrl = Request.Headers["Referer"].ToString();
-            return Redirect(returnUrl);
+            return RedirectToAction("Details", "Home", new { id = addProduct.Product.ProductId});
         }
 
         public async Task<IActionResult> UpdateOrder([Bind(Prefix = "order")]OrderProductModel adjustOrderProduct)
