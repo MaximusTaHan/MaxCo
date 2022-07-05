@@ -1,4 +1,19 @@
-﻿
+﻿.table-image {
+    text-align: center;
+}
+
+.table-products {
+    vertical-align: central;
+}
+
+.table-text {
+    vertical-align: middle;
+}
+
+.order-image {
+    max-width: 10vw;
+    max-height: 7vh;
+}
 
 .productWindow {
     box-shadow: 0px 5px 8px #888888;
@@ -31,7 +46,6 @@
 }
 
 button.btn {
-    padding: 0;
     border: none;
 }
 
@@ -74,6 +88,7 @@ button.btn {
 #target-product {
     margin-top: auto;
 }
+
 .cartButton {
     border-radius: 0;
     width: 100%;

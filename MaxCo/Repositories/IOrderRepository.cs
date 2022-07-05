@@ -7,7 +7,7 @@ namespace MaxCo.Repositories
     {
         Task<MaxCoViewModels> GetOrder();
         Task AddOrderProduct(MaxCoViewModels orderProduct);
-        Task UpdateOrder(OrderProductModel orderProduct);
+        Task UpdateOrder(int quantity, int productId);
         Task DeleteOrder(int orderId);
         Task DeleteItem(int? itemId);
         Task ConfirmOrder();

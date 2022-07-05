@@ -35,13 +35,14 @@ namespace MaxCo.Controllers
         public async Task<IActionResult> AddProduct(MaxCoViewModels addProduct, string returnUrl)
         {
             await _orderRepository.AddOrderProduct(addProduct);
-            string previsouUrl = Request.Headers["Referer"].ToString();
+            string previousUrl = Request.Headers["Referer"].ToString();
             return RedirectToAction("Details", "Home", new { id = addProduct.Product.ProductId});
         }
 
-        public async Task<IActionResult> UpdateOrder([Bind(Prefix = "order")]OrderProductModel adjustOrderProduct)
+        [HttpPut]
+        public async Task<IActionResult> UpdateOrder(int quantity, int productId)
         {
-           await _orderRepository.UpdateOrder(adjustOrderProduct);
+           await _orderRepository.UpdateOrder(quantity, productId);
 
             return RedirectToAction("Order");
         }

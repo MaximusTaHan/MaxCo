@@ -6,34 +6,40 @@
 {
     <div class="main-container container">
         <div class="row">
-            @foreach(var order in Model.OrderProducts)
-            {
-                total += order.Total;
-
-                <div class="col-md-4 col-sm-4">
-                    <div style="border: 2px solid black;">
-                        <form id="update-order-product">
+            <table class="table" id="order-table">
+                @foreach(var order in Model.OrderProducts)
+                {
+                    <tr class="table-products">
+                        <form onkeydown="return event.key != 'Enter';">
                             <input asp-for="@order.OrderId" type="hidden" class="form-control "/>
                             <input asp-for="@order.ProductName" type="hidden" class="form-control"/>
-                            <input asp-for="@order.ProductPrice" type="hidden" class="form-control"/>
-                            <input asp-for="@order.ProductId" type="hidden" class="form-control" />
-
-                            <label>@order.ProductName</label>
-                            <label class="product-price">@order.ProductPrice</label>
-                            <input type="number" min="1" asp-for="@order.Quantity" class="order-product-quantity form-control test"/>
-                            <button type="submit" class="btn btn-danger" asp-controller="Order" asp-action="UpdateOrder">
-                                Update Order
-                            </button>
-                            <button type="submit" class="btn btn-danger" asp-controller="Order" asp-action="DeleteItem">
-                                Delete Item
-                            </button>
+                            <td class="table-image">
+                                <img src="~/images/@order.ProductImage" class="order-image"/>
+                            </td>
+                            <td class="table-text">
+                                <label>@order.ProductName</label>    
+                            </td>
+                            <td class="table-text">
+                                <label class="product-price d-flex align-items-center">@order.ProductPrice kr</label>
+                            </td>
+                            <td class="table-text">
+                                <input asp-for="@order.ProductId" type="hidden" class="form-control product-id" />
+                                <input asp-for="@order.ProductPrice" type="hidden" class="form-control product-price"/>
+                                <input type="number" min="1" asp-for="@order.Quantity" class="order-product-quantity form-control d-flex align-items-center"/>
+                            </td>
+                            <td class="table-text">
+                                <button type="submit" class="btn btn-danger d-flex align-items-center" asp-controller="Order" asp-action="DeleteItem">
+                                    Delete Item
+                                </button>
+                            </td>
                         </form>
-                    </div>
-                </div>
-            }
+                    </tr>
+                }
+            </table>
+            
         </div>
     </div>
-    <p type="text" class="insert-total">Total: @total</p>
+    <p type="text" class="insert-total">Total: 00,00 kr</p>
     <form asp-action="Delete" asp-controller="Order" role="form">
         <input asp-for="@Model.OrderProducts[0].OrderId" type="hidden" class="form-control"/>
         <button type="submit" class="btn btn-danger">

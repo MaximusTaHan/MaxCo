@@ -62,7 +62,7 @@ namespace MaxCo.Repositories
         public async Task<MaxCoViewModels> GetOrder()
         {
             FindActiveOrder();
-            var sql = @$"SELECT orderProduct.OrderId, ProductName, ProductPrice, ProductId, Quantity
+            var sql = @$"SELECT orderProduct.OrderId, ProductName, ProductPrice, ProductId, ProductImage, Quantity
 	                        FROM orderProduct
 	                        INNER JOIN products ON orderProduct.ProductKey = products.ProductId
 	                        WHERE orderProduct.OrderId = {activeOrderId}";
@@ -78,12 +78,12 @@ namespace MaxCo.Repositories
             return products;
         }
 
-        public Task UpdateOrder(OrderProductModel orderProduct)
+        public Task UpdateOrder(int quantity, int productId)
         {
             FindActiveOrder();
             string sql = @$"UPDATE orderProduct
-                            SET Quantity = {orderProduct.Quantity}
-                            WHERE ProductKey = {orderProduct.ProductId}
+                            SET Quantity = {quantity}
+                            WHERE ProductKey = {productId}
                             AND OrderId = {activeOrderId}";
 
             using (var connection = new SqlConnection(_connectionString))
