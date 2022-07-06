@@ -35,7 +35,6 @@ namespace MaxCo.Controllers
         public async Task<IActionResult> AddProduct(MaxCoViewModels addProduct, string returnUrl)
         {
             await _orderRepository.AddOrderProduct(addProduct);
-            string previousUrl = Request.Headers["Referer"].ToString();
             return RedirectToAction("Details", "Home", new { id = addProduct.Product.ProductId});
         }
 

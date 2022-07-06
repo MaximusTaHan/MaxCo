@@ -34,14 +34,15 @@ namespace MaxCo.Repositories
                             FROM products
                             INNER JOIN productCategories
                             ON products.ProductId = productCategories.ProductKey
-                            WHERE productCategories.CategoryKey = '{categorySearch}';";
+                            WHERE productCategories.CategoryKey = @CategorySearch;";
+            var parameters = new { CategorySearch = categorySearch };
 
             var products = new MaxCoViewModels();
 
             using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
-                products.Products = (List<ProductModel>)await connection.QueryAsync<ProductModel>(sql);
+                products.Products = (List<ProductModel>)await connection.QueryAsync<ProductModel>(sql, parameters);
             }
 
             return products;
@@ -51,14 +52,14 @@ namespace MaxCo.Repositories
         public async Task<MaxCoViewModels> GetDetailed(int productId)
         {
             string sql = $"select * from products WHERE productId = @ProductId";
-            var param = new { ProductId = productId };
+            var parameters = new { ProductId = productId };
 
             var products = new MaxCoViewModels();
 
             using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
-                products.Product = await connection.QueryFirstAsync<ProductModel>(sql, param);
+                products.Product = await connection.QueryFirstAsync<ProductModel>(sql, parameters);
             }
 
             return products;
@@ -78,19 +79,20 @@ namespace MaxCo.Repositories
             return products;
         }
 
-        public async Task<MaxCoViewModels> GetFiltered(string id)
+        public async Task<MaxCoViewModels> GetFiltered(string searchString)
         {
-            string sql = @$"select * from products WHERE ProductName LIKE '%{id}%'
-                            OR ProductDescription LIKE'%{id}%'
-                            OR ProductBrand LIKE '%{id}%';";
+            string sql = @$"select * from products WHERE ProductName LIKE @SearchString
+                            OR ProductDescription LIKE @SearchString
+                            OR ProductBrand LIKE @SearchString;";
+            var parameters = new { SearchString = "%" + searchString + "%"};
 
             var products = new MaxCoViewModels();
 
-            using (var connection = new SqlConnection(_connectionString))
-            {
-                connection.Open();
-                products.Products = (List<ProductModel>)await connection.QueryAsync<ProductModel>(sql);
-            }
+
+            using var connection = new SqlConnection(_connectionString);
+
+            connection.Open();
+            products.Products = (List<ProductModel>)await connection.QueryAsync<ProductModel>(sql, parameters);
 
             return products;
         }

@@ -28,32 +28,36 @@ namespace MaxCo.Repositories
         public async Task AddOrderProduct(MaxCoViewModels orderProduct)
         {
             FindActiveOrder();
-            string? sql = $@"IF EXISTS (SELECT * FROM orderProduct WHERE ProductKey = {orderProduct.Product.ProductId} AND orderProduct.OrderId = {activeOrderId})
+
+            string? sql = $@"IF EXISTS (SELECT * FROM orderProduct WHERE ProductKey = @ProductKey AND orderProduct.OrderId = @OrderId)
                             BEGIN
 	                            UPDATE orderProduct
 	                            SET Quantity = Quantity + 1
-	                            WHERE ProductKey = {orderProduct.Product.ProductId}
+	                            WHERE ProductKey = @ProductKey
                             END
                             ELSE
                             BEGIN
-	                            INSERT INTO orderProduct VALUES ({activeOrderId}, {orderProduct.Product.ProductId}, 1)
+	                            INSERT INTO orderProduct VALUES (@OrderId, @ProductKey, 1)
                             END";
+            var parameters = new { ProductKey = orderProduct.Product.ProductId, OrderId = activeOrderId };
 
             using var connection = new SqlConnection(_connectionString);
 
             connection.Open();
-            await connection.ExecuteAsync(sql);
+            await connection.ExecuteAsync(sql, parameters);
         }
 
         public Task DeleteOrder(int orderId)
         {
             FindActiveOrder();
             var sql = $@"DELETE FROM orders
-                        WHERE OrderId = {orderId}";
+                        WHERE OrderId = @OrderId";
+
+            var parameters = new { OrderId = orderId };
             using(var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
-                connection.Execute(sql);
+                connection.Execute(sql, parameters);
             }
             activeOrderId = 0;
             return Task.CompletedTask;
@@ -65,14 +69,14 @@ namespace MaxCo.Repositories
             var sql = @$"SELECT orderProduct.OrderId, ProductName, ProductPrice, ProductId, ProductImage, Quantity
 	                        FROM orderProduct
 	                        INNER JOIN products ON orderProduct.ProductKey = products.ProductId
-	                        WHERE orderProduct.OrderId = {activeOrderId}";
-
+	                        WHERE orderProduct.OrderId = @OrderId";
+            var parameters = new { OrderId = activeOrderId };
             var products = new MaxCoViewModels();
 
             using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
-                products.OrderProducts = (List<OrderProductModel>)await connection.QueryAsync<OrderProductModel>(sql);
+                products.OrderProducts = (List<OrderProductModel>)await connection.QueryAsync<OrderProductModel>(sql, parameters);
             }
 
             return products;
@@ -82,14 +86,15 @@ namespace MaxCo.Repositories
         {
             FindActiveOrder();
             string sql = @$"UPDATE orderProduct
-                            SET Quantity = {quantity}
-                            WHERE ProductKey = {productId}
-                            AND OrderId = {activeOrderId}";
+                            SET Quantity = @Quantity
+                            WHERE ProductKey = @ProductKey
+                            AND OrderId = @OrderId";
+            var parameters = new { Quantity = quantity, ProductKey = productId, OrderId = activeOrderId };
 
             using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
-                connection.Execute(sql);
+                connection.Execute(sql, parameters);
             }
             return Task.CompletedTask;
         }
@@ -98,12 +103,12 @@ namespace MaxCo.Repositories
         {
             FindActiveOrder();
             string sql = $@"DELETE FROM orderProduct
-                            WHERE ProductKey = {itemId}";
-
+                            WHERE ProductKey = @ProductKey";
+            var parameters = new { ProductKey = itemId };
             using(var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
-                connection.Execute(sql);
+                connection.Execute(sql, parameters);
             }
             return Task.CompletedTask;
         }
@@ -119,10 +124,12 @@ namespace MaxCo.Repositories
                 total += order.Quantity * order.ProductPrice;
             }
 
-            FinalizedOrder final = new FinalizedOrder();
-            final.TotalPrice = total;
-            final.CustomerEmail = userEmail;
-            final.OrderProducts = finalOrder.OrderProducts;
+            FinalizedOrder final = new()
+            {
+                TotalPrice = total,
+                CustomerEmail = userEmail,
+                OrderProducts = finalOrder.OrderProducts
+            };
 
             await _processOrder.ConfirmationSender(final);
 
@@ -132,11 +139,9 @@ namespace MaxCo.Repositories
                         WHERE OrderStatus = 2
                         AND UserId = '{userId}'";
 
-            using (var connection = new SqlConnection(_connectionString))
-            {
-                connection.Open();
-                connection.Execute(sql);
-            }
+            using var connection = new SqlConnection(_connectionString);
+            connection.Open();
+            connection.Execute(sql);
         }
 
         private void FindActiveOrder()
@@ -148,11 +153,9 @@ namespace MaxCo.Repositories
                         WHERE OrderStatus = 2
                         AND UserId = '{userId}'";
 
-            using (var connections = new SqlConnection(_connectionString))
-            {
-                connections.Open();
-                activeOrderId = connections.ExecuteScalar<int>(sql);
-            }
+            using var connections = new SqlConnection(_connectionString);
+            connections.Open();
+            activeOrderId = connections.ExecuteScalar<int>(sql);
         }
 
         private void CreatOrder()
