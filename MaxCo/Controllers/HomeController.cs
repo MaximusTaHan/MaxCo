@@ -21,7 +21,7 @@ namespace MaxCo.Controllers
 
         public async Task<IActionResult> Browse(string searchString)
         {
-            var products = new MaxCoViewModels();
+            MaxCoViewModels products;
             if (string.IsNullOrEmpty(searchString))
             {
                 products = await _productRepository.GetAll();
@@ -42,7 +42,6 @@ namespace MaxCo.Controllers
         
         public async Task<IActionResult> Details(int id)
         {
-            //var viewId = id.Product.ProductId;
             var product = await _productRepository.GetDetailed(id);
 
             return View(product);

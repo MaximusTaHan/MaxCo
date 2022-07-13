@@ -22,7 +22,6 @@
             </p>
             <form asp-action="AddProduct" id="target-product" asp-controller="Order" role="form">
                 <input asp-for="@Model.Product.ProductId" type="hidden" class="form-control"/>
-                <input name="returnUrl" type="hidden" value="@Context."/>
                 <button type="submit" class="cartButton btn btn-primary">
                     Add To Cart
                 </button>

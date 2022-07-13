@@ -5,12 +5,19 @@ using MaxCo.Models.ViewModels;
 
 namespace MaxCoEmailService
 {
-    public class ProcessOrder : IProcessOrder
+    public class ProcessOrder : BackgroundService
     {
         private readonly ILogger<ProcessOrder> _logger;
-        public ProcessOrder(ILogger<ProcessOrder> logger)
+        private readonly IConfiguration _config;
+        private readonly IServiceProvider _serviceProvider;
+        private readonly string _emailKey;
+        public ProcessOrder(ILogger<ProcessOrder> logger, IConfiguration config, IServiceProvider serviceProvider)
         {
             _logger = logger;
+            _config = config;
+            _serviceProvider = serviceProvider;
+
+            _emailKey = config["MaxCo:EmailPassKey"];
         }
 
         public async Task ConfirmationSender(FinalizedOrder finalOrder)
@@ -39,7 +46,7 @@ namespace MaxCoEmailService
             return;
         }
 
-        public static Task Email(string htmlString, string email)
+        public Task Email(string htmlString, string email)
         {
             using MailMessage message = new();
 
@@ -51,11 +58,49 @@ namespace MaxCoEmailService
 
             using SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
 
-            smtp.Credentials = new NetworkCredential("meepmopo@gmail.com", "euptcokvqggrwkqt");
+            smtp.Credentials = new NetworkCredential("meepmopo@gmail.com", _emailKey);
             smtp.EnableSsl = true;
             smtp.Send(message);
 
             return Task.CompletedTask;
+        }
+
+        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+        {
+
+            while(!stoppingToken.IsCancellationRequested)
+            {
+                try
+                {
+                    _logger.LogInformation($"{nameof(ProcessOrder)} is running");
+                    await Task.Delay(5*1000);
+
+                }
+                catch (OperationCanceledException)
+                {
+                    return;
+                }
+            }
+        }
+
+        //private async Task DoWorkAsync(CancellationToken stoppingToken)
+        //{
+        //    _logger.LogInformation($"{nameof(ProcessOrder)} is working.");
+
+        //    using (var scope = _serviceProvider.CreateScope())
+        //    {
+        //        IProcessOrder scopedProcessingService =
+        //            scope.ServiceProvider.GetRequiredService<IProcessOrder>();
+
+        //        await scopedProcessingService.DoWorkAsync(stoppingToken);
+        //    }
+        //}
+
+        public override async Task StopAsync(CancellationToken stoppingToken)
+        {
+            _logger.LogInformation($"{nameof(ProcessOrder)} is stopping");
+
+            await base.StopAsync(stoppingToken);
         }
     }
 }

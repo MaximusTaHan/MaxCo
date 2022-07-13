@@ -1,9 +1,10 @@
 ﻿using System.Data.SqlClient;
 using System.Security.Claims;
+using Coravel.Queuing.Interfaces;
 using Dapper;
 using MaxCo.Models;
 using MaxCo.Models.ViewModels;
-using MaxCoEmailService;
+using MaxCoCoravel;
 
 namespace MaxCo.Repositories
 {
@@ -11,13 +12,15 @@ namespace MaxCo.Repositories
     {
         private static string? _connectionString;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly IProcessOrder _processOrder;
+        private readonly IQueue _queue;
+        //private readonly IProcessOrder _processOrder;
         private static int activeOrderId;
-        public OrderRepository(IConfiguration configuration, IHttpContextAccessor httpContextAccessor, IProcessOrder processOrder)
+        public OrderRepository(IConfiguration configuration, IHttpContextAccessor httpContextAccessor, IQueue queue)
         {
             _connectionString = configuration.GetConnectionString("DefaultConnection");
             _httpContextAccessor = httpContextAccessor;
-            _processOrder = processOrder;
+            _queue = queue;
+            //_processOrder = processOrder;
 
             if (activeOrderId == 0)
                 FindActiveOrder();
@@ -131,7 +134,8 @@ namespace MaxCo.Repositories
                 OrderProducts = finalOrder.OrderProducts
             };
 
-            await _processOrder.ConfirmationSender(final);
+            _queue.QueueInvocable<TryEmail>();
+            //await _processOrder.DoWorkAsync(new CancellationToken(), final);
 
             var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var sql = $@"UPDATE orders

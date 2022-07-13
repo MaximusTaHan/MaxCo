@@ -9,6 +9,6 @@ namespace MaxCoEmailService
 {
     public interface IProcessOrder
     {
-        Task ConfirmationSender(FinalizedOrder finalOrder);
+        Task DoWorkAsync(CancellationToken cancellationToken, FinalizedOrder finalizedOrder);
     }
 }

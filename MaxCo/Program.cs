@@ -3,6 +3,7 @@ using MaxCo.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MaxCoEmailService;
+using Coravel;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,7 +19,11 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
 
 builder.Services.AddTransient<IProductRepository, ProductRepository>();
 builder.Services.AddTransient<IOrderRepository, OrderRepository>();
-builder.Services.AddTransient<IProcessOrder, ProcessOrder>();
+builder.Services.AddTransient<TryEmail>();
+builder.Services.AddScheduler();
+builder.Services.AddQueue();
+//builder.Services.AddHostedService<ProcessOrder>();
+//builder.Services.AddScoped<IProcessOrder, DefaultProcessOrder>();
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 
 builder.Services.AddControllersWithViews();

@@ -32,7 +32,7 @@ namespace MaxCo.Controllers
             return View(order);
         }
 
-        public async Task<IActionResult> AddProduct(MaxCoViewModels addProduct, string returnUrl)
+        public async Task<IActionResult> AddProduct(MaxCoViewModels addProduct)
         {
             await _orderRepository.AddOrderProduct(addProduct);
             return RedirectToAction("Details", "Home", new { id = addProduct.Product.ProductId});
@@ -53,9 +53,9 @@ namespace MaxCo.Controllers
             return RedirectToAction("Order");
         }
 
-        public async Task<IActionResult> DeleteItem([Bind(Prefix = "order")] OrderProductModel adjustOrderProduct)
+        public async Task<IActionResult> DeleteItem([Bind(Prefix = "order")] OrderProductModel deleteOrderProduct)
         {
-            await _orderRepository.DeleteItem(adjustOrderProduct.ProductId);
+            await _orderRepository.DeleteItem(deleteOrderProduct.ProductId);
             return RedirectToAction("Order");
         }
 
