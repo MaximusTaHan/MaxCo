@@ -19,9 +19,6 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
 
 builder.Services.AddTransient<IProductRepository, ProductRepository>();
 builder.Services.AddTransient<IOrderRepository, OrderRepository>();
-builder.Services.AddTransient<TryEmail>();
-builder.Services.AddScheduler();
-builder.Services.AddQueue();
 //builder.Services.AddHostedService<ProcessOrder>();
 //builder.Services.AddScoped<IProcessOrder, DefaultProcessOrder>();
 builder.Services.AddTransient<IEmailSender, EmailSender>();

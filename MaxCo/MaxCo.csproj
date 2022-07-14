@@ -31,7 +31,6 @@
   </ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\MaxCoCoravel\MaxCoCoravel.csproj" />
 		<ProjectReference Include="..\MaxCoEmailService\MaxCoEmailService.csproj" />
 		<ProjectReference Include="..\Library\Library.csproj" />
 	</ItemGroup>

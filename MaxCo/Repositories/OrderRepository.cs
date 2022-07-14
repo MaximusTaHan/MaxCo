@@ -4,7 +4,7 @@ using Coravel.Queuing.Interfaces;
 using Dapper;
 using MaxCo.Models;
 using MaxCo.Models.ViewModels;
-using MaxCoCoravel;
+using MaxCoEmailService;
 
 namespace MaxCo.Repositories
 {
@@ -12,15 +12,13 @@ namespace MaxCo.Repositories
     {
         private static string? _connectionString;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly IQueue _queue;
-        //private readonly IProcessOrder _processOrder;
+        private readonly IEmailSender _emailSender;
         private static int activeOrderId;
-        public OrderRepository(IConfiguration configuration, IHttpContextAccessor httpContextAccessor, IQueue queue)
+        public OrderRepository(IConfiguration configuration, IHttpContextAccessor httpContextAccessor, IEmailSender emailSender)
         {
             _connectionString = configuration.GetConnectionString("DefaultConnection");
             _httpContextAccessor = httpContextAccessor;
-            _queue = queue;
-            //_processOrder = processOrder;
+            _emailSender = emailSender;
 
             if (activeOrderId == 0)
                 FindActiveOrder();
@@ -134,8 +132,7 @@ namespace MaxCo.Repositories
                 OrderProducts = finalOrder.OrderProducts
             };
 
-            _queue.QueueInvocable<TryEmail>();
-            //await _processOrder.DoWorkAsync(new CancellationToken(), final);
+            Task.Run(() => _emailSender.ConfirmationSender(final));
 
             var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var sql = $@"UPDATE orders

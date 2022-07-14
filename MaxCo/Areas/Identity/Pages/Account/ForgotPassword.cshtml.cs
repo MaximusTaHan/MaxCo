@@ -70,7 +70,7 @@ namespace MaxCo.Areas.Identity.Pages.Account
                     values: new { area = "Identity", code },
                     protocol: Request.Scheme);
 
-                await _emailSender.SendEmailAsync(
+                await _emailSender.Email(
                     Input.Email,
                     "Reset Password",
                     $"Please reset your password by clicking this link: {HtmlEncoder.Default.Encode(callbackUrl)}");
