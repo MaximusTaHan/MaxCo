@@ -6,7 +6,7 @@ There is a Worker service app, “MaxCoEmailService”, that takes care of handl
 
 The ViewModels have been placed in a class library for convenient access by both apps.
 
- - The SQL server DB uses several tables with different relationships to give a rich user-experience. The DB currently supports:
+The SQL server DB uses several tables with different relationships to give a rich user-experience. The DB currently supports:
  - Products, which represent real world items. The search bar relies on product fields for its implementation
  - Categories that represent the different tags a product can have. An intermediary table holds the many to many relationship between Products and Categories
  - Orders with an intermediary table to handle the many to many relationship between products and multiple orders. 
