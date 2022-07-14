@@ -10,7 +10,7 @@ namespace MaxCoEmailService
     public interface IEmailSender
     {
         Task ConfirmationSender(FinalizedOrder finalOrder);
-        Task Email(string email, string subject, string htmlMessage);
+        Task EmailAsync(string email, string subject, string htmlMessage);
     }
 }
 

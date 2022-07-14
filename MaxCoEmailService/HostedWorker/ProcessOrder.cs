@@ -3,6 +3,8 @@ using System.Net.Mail;
 using System.Text;
 using MaxCo.Models.ViewModels;
 
+// Implementation for a hosted service to be consumed in a scope
+//  --------------------Currently Not Used----------------------
 namespace MaxCoEmailService
 {
     public class ProcessOrder : BackgroundService

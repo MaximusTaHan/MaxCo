@@ -19,7 +19,7 @@ namespace MaxCoEmailService
             _logger = logger;
             _configuration = configuration;
         }
-        public async Task Email(string email, string subject, string htmlMessage)
+        public async Task EmailAsync(string email, string subject, string htmlMessage)
         {
             using MailMessage message = new();
 
@@ -59,7 +59,7 @@ namespace MaxCoEmailService
             body = body.Replace("{TableRows}", rows.ToString());
             body = body.Replace("{TotalAmount}", finalOrder.TotalPrice.ToString());
 
-            await Email(finalOrder.CustomerEmail, "test", body);
+            await EmailAsync(finalOrder.CustomerEmail, "test", body);
             return;
         }
     }

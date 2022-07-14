@@ -7,6 +7,8 @@ using System.Text;
 using System.Threading.Tasks;
 using MaxCo.Models.ViewModels;
 
+// Implementation for a hosted service to be consumed in a scope
+//  --------------------Currently Not Used----------------------
 namespace MaxCoEmailService
 {
     public class DefaultProcessOrder : IProcessOrder
@@ -68,7 +70,7 @@ namespace MaxCoEmailService
 
             using SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
 
-            smtp.Credentials = new NetworkCredential("meepmopo@gmail.com", "euptcokvqggrwkqt");
+            smtp.Credentials = new NetworkCredential("meepmopo@gmail.com", "");
             smtp.EnableSsl = true;
             await smtp.SendMailAsync(message);
         }

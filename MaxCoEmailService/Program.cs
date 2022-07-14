@@ -3,6 +3,8 @@ using Serilog;
 using Serilog.Formatting.Json;
 
 
+// Currently never runs
+
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
     .WriteTo.File(new JsonFormatter(), "logs/log.txt", 
